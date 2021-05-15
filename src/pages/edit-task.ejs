@@ -4,25 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Task</title>
+    <title>
+        <% if(editing){ %>Edit Task<% } else { %>Add Task<% } %>   
+    </title>
 </head>
 <body>
-    <h1>Add Task</h1>
-    <form method="POST" action="/add-task">
+    <h1><% if(editing){ %>Edit Task<% } else { %>Add Task<% } %></h1>
+    <form method="POST" action="/<% if(editing){ %>edit-task<% } else { %>add-task<% } %>">
         <div>
             <label>Name</label>
-            <input type="text" name="name" required >
+            <input type="text" name="name" value="<% if(editing){ %><%= task.name %><% } %>" required >
         </div>
         <div>
             <label>Date</label>
-            <input type="text" name="date" required >
+            <input type="text" name="dateTime" value="<% if(editing){ %><%= task.dateTime %><% } %>" required >
         </div>
         <div>
             <label>Description</label>
-            <input type="text" name="description" required >
+            <input type="text" name="desc" value="<% if(editing){ %><%= task.desc %><% } %>" required >
         </div>
+        <% if(editing){ %>
         <div>
-            <button type="submit">Add Task</button>
+            <input type="hidden" name='taskId' value='<%= task.id %> '>
+        </div>
+        <% } %> 
+        <div>
+            <button type="submit"><% if(editing){ %>Edit Task<% } else { %>Add Task<% } %></button>
         </div>
     </form>
 </body>

@@ -10,7 +10,8 @@ exports.getIndex = async (req, res) => {
     console.log(task);
     // Checking if the res status is good and rendering index and
     // sending in task
-    res.status(200).render('index', { task: task });
+    // res.status(200).render('index', { task: task });
+    res.json(task);
     // Catching error
   } catch (error) {
     // logging error
@@ -40,22 +41,65 @@ exports.getTask = async (req, res) => {
 // loading the getAddTask page
 exports.getAddTask = (req, res) => {
   // checking if status is 200 and rendering edit-task page
-  res.status(200).render('edit-task');
+  res.status(200).render('edit-task', { editing: false });
+};
+
+exports.getEditTask = async (req, res) => {
+  const taskId = req.params.taskId;
+  const editMode = req.query.edit;
+
+  if (!editMode) {
+    return res.redirect('/');
+  }
+
+  const task = await Task.findById(taskId);
+
+  try {
+    if (!taskId) {
+      return res.redirect('/');
+    }
+    console.log(task);
+    res.status(200).render('edit-task', { task: task, editing: editMode });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Create request
 exports.postTask = (req, res) => {
   // destructuring variables and values from the request body
-  const { name, date, description } = req.body;
+  const { name, dateTime, desc } = req.body;
 
   // setting task variable to an object made of destructured variables
-  const task = new Task({ name: name, date: date, description: description });
+  const task = new Task({ name: name, dateTime: dateTime, desc: desc });
   // adding task to db
   task.save();
   // logging message when task is added to db
   console.log('Task added to database');
   // checking if the status is 201 and redirecting to home page
   res.status(201).redirect('/');
+};
+
+// Update request
+exports.postEditTask = (req, res) => {
+  const taskId = req.body.taskId;
+  const { name, date, description } = req.body;
+
+  Task.findById(taskId)
+    .then((task) => {
+      task.name = name;
+      task.date = date;
+      task.description = description;
+
+      return task.save();
+    })
+    .then(() => {
+      console.log('item Updated');
+      res.status(201).redirect('/');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 // Delete request
