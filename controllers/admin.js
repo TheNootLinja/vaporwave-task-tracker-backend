@@ -1,7 +1,30 @@
 const Task = require('../models/Task');
 
-exports.getIndex = (req, res) => {
-  res.status(200).render('index');
+// exports.getIndex = (req, res) => {
+//   res.status(200).render('index');
+// };
+
+exports.getIndex = async (req, res) => {
+  const task = await Task.find((data) => data);
+
+  try {
+    console.log(task);
+    res.status(200).render('index', { task: task });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getTask = async (req, res) => {
+  const taskId = req.params.taskId;
+  const task = await Task.findById(taskId, (task) => task);
+
+  try {
+    console.log(task);
+    res.status(200).render('task', { task: task });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.getAddTask = (req, res) => {

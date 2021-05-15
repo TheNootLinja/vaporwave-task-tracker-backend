@@ -8,5 +8,15 @@
 </head>
 <body>
     <h1>Home Page</h1>
+
+    <main>
+        <% task.forEach(data => { %>
+            <ul>
+                <li><h1><a href="/<%= data.id %> "><%= data.name %> </a></h1></li>
+                <li><%= data.date %> </li>
+                <li><p><%= data.description %></p></li>
+            </ul>
+        <% }) %> 
+    </main>
 </body>
 </html>

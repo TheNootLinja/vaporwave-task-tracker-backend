@@ -9,4 +9,6 @@ router.get('/add-task', adminController.getAddTask);
 
 router.post('/add-task', adminController.postTask);
 
+router.get('/:taskId', adminController.getTask);
+
 module.exports = router;
