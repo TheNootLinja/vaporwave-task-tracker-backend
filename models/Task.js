@@ -15,4 +15,4 @@ const TaskSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('series', TaskSchema);
+module.exports = mongoose.model('Tasks', TaskSchema);
