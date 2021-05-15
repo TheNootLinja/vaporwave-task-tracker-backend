@@ -21,8 +21,12 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/static', express.static(path.join(`${__dirname}/public`)));
 
+const adminRoute = require('./routes/admin');
+
 // This would be the home page when navigating to '/'
-app.get('/', (req, res) => res.send('Home Route'));
+// app.get('/', (req, res) => res.send('Home Route'));
+
+app.use('/', adminRoute);
 
 // Telling the app which port to run on
 const port = process.env.PORT || 8080;
