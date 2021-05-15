@@ -5,14 +5,14 @@ const TaskSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
+  dateTime: {
     type: Date,
     required: true,
   },
-  description: {
+  desc: {
     type: String,
     required: true,
   },
 });
 
-module.exports = mongoose.model('series', TaskSchema);
+module.exports = mongoose.model('Tasks', TaskSchema);

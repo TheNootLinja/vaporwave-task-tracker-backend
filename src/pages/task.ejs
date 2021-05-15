@@ -7,6 +7,26 @@
     <title>Task</title>
 </head>
 <body>
-    <h1>Task</h1>
+    <main>
+        <h1>Task</h1>
+        <h1><%= task.name %> </h1>
+        <p><%= task.description %> </p>
+
+        <div>
+            <!-- The form below is setup to delete the currently viewed
+            task using the POST route and the action of /delete -->
+            <form method='POST' action='/delete'>
+                <div>
+                    <input type="hidden" value="<%= task.id %>" name="taskId">
+                    <button>Delete</button>
+                </div>
+            </form>
+        </div>
+        <div>
+            <button style="margin-top: 5px;">
+                <a href="/edit-task/<%= task.id %>?edit=true" style="text-decoration: none; color: black;">Edit</a>
+            </button>
+        </div>
+    </main>
 </body>
 </html>
