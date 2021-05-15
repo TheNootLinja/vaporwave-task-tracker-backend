@@ -1,41 +1,59 @@
 const Task = require('../models/Task');
 
-// exports.getIndex = (req, res) => {
-//   res.status(200).render('index');
-// };
-
+// Setting up data fetching for home page
 exports.getIndex = async (req, res) => {
+  // Task is the data we are collecting here
   const task = await Task.find((data) => data);
 
   try {
+    // printing out the array of tasks fetched fron db
     console.log(task);
+    // Checking if the res status is good and rendering index and
+    // sending in task
     res.status(200).render('index', { task: task });
+    // Catching error
   } catch (error) {
+    // logging error
     console.log(error);
   }
 };
 
+// Setting up data fetching for get task page
 exports.getTask = async (req, res) => {
+  // taskId var is set to the taskId parameter of the request
   const taskId = req.params.taskId;
+  // task is set to the the task that is retrieved using the taskId
   const task = await Task.findById(taskId, (task) => task);
 
   try {
+    // logging the singular task
     console.log(task);
+    // checking if status is good and rendering task
     res.status(200).render('task', { task: task });
+    // catching error
   } catch (error) {
+    // logging error
     console.log(error);
   }
 };
 
+// loading the getAddTask page
 exports.getAddTask = (req, res) => {
+  // checking if status is 200 and rendering edit-task page
   res.status(200).render('edit-task');
 };
 
+// setting up post task data sending
 exports.postTask = (req, res) => {
+  // destructuring variables and values from the request body
   const { name, date, description } = req.body;
 
+  // setting task variable to an object made of destructured variables
   const task = new Task({ name: name, date: date, description: description });
+  // adding task to db
   task.save();
+  // logging message when task is added to db
   console.log('Task added to database');
+  // checking if the status is 201 and redirecting to home page
   res.status(201).redirect('/');
 };
