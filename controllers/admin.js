@@ -1,6 +1,6 @@
 const Task = require('../models/Task');
 
-// Setting up data fetching for home page
+// Read request for all tasks
 exports.getIndex = async (req, res) => {
   // Task is the data we are collecting here
   const task = await Task.find((data) => data);
@@ -18,7 +18,7 @@ exports.getIndex = async (req, res) => {
   }
 };
 
-// Setting up data fetching for get task page
+// Read request for singular task
 exports.getTask = async (req, res) => {
   // taskId var is set to the taskId parameter of the request
   const taskId = req.params.taskId;
@@ -43,7 +43,7 @@ exports.getAddTask = (req, res) => {
   res.status(200).render('edit-task');
 };
 
-// setting up post task data sending
+// Create request
 exports.postTask = (req, res) => {
   // destructuring variables and values from the request body
   const { name, date, description } = req.body;
@@ -56,4 +56,18 @@ exports.postTask = (req, res) => {
   console.log('Task added to database');
   // checking if the status is 201 and redirecting to home page
   res.status(201).redirect('/');
+};
+
+// Delete request
+exports.postDelete = async (req, res) => {
+  const taskId = req.body.taskId;
+  const task = await Task.findByIdAndRemove(taskId, (data) => data);
+
+  try {
+    console.log(task);
+    console.log('Item Deleted');
+    res.redirect('/');
+  } catch (error) {
+    console.log(error);
+  }
 };
