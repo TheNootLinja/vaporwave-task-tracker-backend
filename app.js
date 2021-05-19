@@ -9,7 +9,15 @@ require('dotenv').config();
 const app = express();
 
 // telling app to use cors
-app.use(cors());
+app.use('*', cors());
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 
 // setting our view engine to ejs
 app.set('view engine', 'ejs');
@@ -18,10 +26,12 @@ app.set('views', './src/pages');
 
 // telling the app to use urlencoded which is from bodyparser
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use('/static', express.static(path.join(`${__dirname}/public`)));
 
 const adminRoute = require('./routes/admin');
+const { access } = require('fs');
 
 // This would be the home page when navigating to '/'
 // app.get('/', (req, res) => res.send('Home Route'));

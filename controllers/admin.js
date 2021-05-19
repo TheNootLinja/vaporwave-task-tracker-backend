@@ -69,7 +69,7 @@ exports.getEditTask = async (req, res) => {
 exports.postTask = (req, res) => {
   // destructuring variables and values from the request body
   const { name, dateTime, desc } = req.body;
-
+  console.log(req);
   // setting task variable to an object made of destructured variables
   const task = new Task({ name: name, dateTime: dateTime, desc: desc });
   // adding task to db
@@ -104,7 +104,8 @@ exports.postEditTask = (req, res) => {
 
 // Delete request
 exports.postDelete = async (req, res) => {
-  const taskId = req.body.taskId;
+  const taskId = req.params.taskId;
+  console.log('backend ', taskId);
   const task = await Task.findByIdAndRemove(taskId, (data) => data);
 
   try {

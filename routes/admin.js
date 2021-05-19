@@ -15,6 +15,6 @@ router.post('/edit-task', adminController.postEditTask);
 // Get route based on a query we pass in the url
 router.get('/:taskId', adminController.getTask);
 // Post route for deleting a task
-router.post('/delete', adminController.postDelete);
+router.post('/delete/:taskId', adminController.postDelete);
 
 module.exports = router;
