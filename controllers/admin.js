@@ -104,7 +104,8 @@ exports.postEditTask = (req, res) => {
 
 // Delete request
 exports.postDelete = async (req, res) => {
-  const taskId = req.body.taskId;
+  const taskId = req.params.taskId;
+  console.log('backend ', taskId);
   const task = await Task.findByIdAndRemove(taskId, (data) => data);
 
   try {
