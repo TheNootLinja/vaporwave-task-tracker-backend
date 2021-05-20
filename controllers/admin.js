@@ -6,8 +6,6 @@ exports.getIndex = async (req, res) => {
   const task = await Task.find((data) => data);
 
   try {
-    // printing out the array of tasks fetched fron db
-    console.log(task);
     // Checking if the res status is good and rendering index and
     // sending in task
     // res.status(200).render('index', { task: task });
@@ -27,8 +25,6 @@ exports.getTask = async (req, res) => {
   const task = await Task.findById(taskId, (task) => task);
 
   try {
-    // logging the singular task
-    console.log(task);
     // checking if status is good and rendering task
     res.status(200).render('task', { task: task });
     // catching error
@@ -58,7 +54,6 @@ exports.getEditTask = async (req, res) => {
     if (!taskId) {
       return res.redirect('/');
     }
-    console.log(task);
     res.status(200).render('edit-task', { task: task, editing: editMode });
   } catch (error) {
     console.log(error);
@@ -69,13 +64,10 @@ exports.getEditTask = async (req, res) => {
 exports.postTask = (req, res) => {
   // destructuring variables and values from the request body
   const { name, dateTime, desc } = req.body;
-  console.log(req);
   // setting task variable to an object made of destructured variables
   const task = new Task({ name: name, dateTime: dateTime, desc: desc });
   // adding task to db
   task.save();
-  // logging message when task is added to db
-  console.log('Task added to database');
   // checking if the status is 201 and redirecting to home page
   res.status(201).redirect('/');
 };
@@ -94,7 +86,6 @@ exports.postEditTask = (req, res) => {
       return task.save();
     })
     .then(() => {
-      console.log('item Updated');
       res.status(201).redirect('/');
     })
     .catch((err) => {
@@ -109,8 +100,6 @@ exports.postDelete = async (req, res) => {
   const task = await Task.findByIdAndRemove(taskId, (data) => data);
 
   try {
-    console.log(task);
-    console.log('Item Deleted');
     res.redirect('/');
   } catch (error) {
     console.log(error);
